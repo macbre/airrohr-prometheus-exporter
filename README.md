@@ -33,6 +33,11 @@ Exposes metrics collected from airrohr stations in Prometheus format.
 # TODO
 ```
 
+## `GET /metrics.json`
+
+Exposes metrics collected from airrohr stations in Prometheus format.
+
+
 ### Local development
 
 Start this server locally and make a request using `curl`:
