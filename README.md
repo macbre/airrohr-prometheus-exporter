@@ -23,22 +23,31 @@ Content-Length: 481
 {"esp8266id": "12331981", "software_version": "NRZ-2020-129", "sensordatavalues":[{"value_type":"SDS_P1","value":"0.40"},{"value_type":"SDS_P2","value":"0.20"},{"value_type":"BME280_temperature","value":"20.47"},{"value_type":"BME280_pressure","value":"100613.25"},{"value_type":"BME280_humidity","value":"69.02"},{"value_type":"samples","value":"4222662"},{"value_type":"min_micro","value":"32"},{"value_type":"max_micro","value":"3301275"},{"value_type":"signal","value":"-94"}]}
 ```
 
-## `GET /metrics`
+### `GET /metrics`
 
 Exposes metrics collected from airrohr stations in Prometheus format.
 
 #### Metrics exposed
 
 ```
-# TODO
+# HELP airrohr_info Information about the sensor.
+# TYPE airrohr_info gauge
+airrohr_info {sensor_id="esp8266-12326597",software="NRZ-2020-129"} 1
+# HELP airrohr_bme280_temperature bme280_temperature metric
+# TYPE airrohr_bme280_temperature gauge
+airrohr_bme280_temperature {sensor_id="esp8266-12326597"} 20.28
+# HELP airrohr_bme280_pressure bme280_pressure metric
+# TYPE airrohr_bme280_pressure gauge
+airrohr_bme280_pressure {sensor_id="esp8266-12326597"} 100166.37
+...
 ```
 
-## `GET /metrics.json`
+### `GET /metrics.json`
 
 Exposes metrics collected from airrohr stations in Prometheus format.
 
 
-### Local development
+## Local development
 
 Start this server locally and make a request using `curl`:
 
