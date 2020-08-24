@@ -24,8 +24,8 @@ def format_prometheus_metric(
             for key, value in labels.items()
         ]) + '} '
 
-    lines.append(f'HELP {metric_name} {metric_help}')
-    lines.append(f'TYPE {metric_name} {metric_type}')
+    lines.append(f'# HELP {metric_name} {metric_help}')
+    lines.append(f'# TYPE {metric_name} {metric_type}')
     lines.append(f'{metric_name} {labels_formatted}{value}')
 
     return '\n'.join(lines)

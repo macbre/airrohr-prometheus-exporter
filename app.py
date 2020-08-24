@@ -6,7 +6,9 @@ from dataclasses import dataclass
 from os import getenv
 from typing import Dict
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
+
+from utils import format_prometheus_metric
 
 app = Flask(__name__)
 
@@ -42,7 +44,31 @@ def metrics():
     """
     Expose metrics for the Prometheus collector
     """
-    return '# airrohr-prometheus-exporter metrics'
+    def format_sensors(prefix: str):
+        for sensor in sensors.values():
+            # sensor's metadata
+            yield format_prometheus_metric(
+                metric_name=f'{prefix}_info',
+                metric_help='Information about the sensor.',
+                value='1',
+                labels=dict(
+                    sensor_id=sensor.sensor_id,
+                    software=sensor.meta.get('software_version', '')
+                )
+            ) + '\n'
+
+            # sensor's metrics
+            for metric, value in sensor.metrics.items():
+                yield format_prometheus_metric(
+                    metric_name=f'{prefix}_{metric}',
+                    metric_help='f{metric} metric',
+                    value=str(value),
+                    labels=dict(
+                        sensor_id=sensor.sensor_id
+                    )
+                ) + '\n'
+
+    return Response(format_sensors(prefix='airrohr'), mimetype='text/plain; charset=utf-8')
 
 
 @app.route('/metrics.json')
@@ -77,7 +103,12 @@ def data():
         meta=dict(
             software_version=payload.get('NRZ-2020-129', 'unknown')
         ),
-        metrics=payload.get('sensordatavalues')
+        metrics={
+            # bme280_temperature: 20.47
+            str(metric['value_type']).lower(): metric['value']
+            for metric in payload.get('sensordatavalues')
+            if 'value_type' in metric and 'value' in metric
+        }
     )
 
     return 'Metrics received', 201
