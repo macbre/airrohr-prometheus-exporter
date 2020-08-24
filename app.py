@@ -61,7 +61,7 @@ def metrics():
             for metric, value in sensor.metrics.items():
                 yield format_prometheus_metric(
                     metric_name=f'{prefix}_{metric}',
-                    metric_help='f{metric} metric',
+                    metric_help=f'{metric} metric',
                     value=str(value),
                     labels=dict(
                         sensor_id=sensor.sensor_id
