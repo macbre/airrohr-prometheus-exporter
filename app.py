@@ -32,7 +32,5 @@ def data():
 
 
 if __name__ == "__main__":
-    """
-    Start the server
-    """
+    # Start the server
     app.run(port=getenv('PORT', '80'), debug=True)
