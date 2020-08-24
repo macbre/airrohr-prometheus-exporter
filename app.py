@@ -68,7 +68,7 @@ def metrics():
                     )
                 ) + '\n'
 
-    return Response(format_sensors(prefix='airrohr'), mimetype='text/plain; charset=utf-8')
+    return Response(format_sensors(prefix='airrohr'), mimetype='text/plain')
 
 
 @app.route('/metrics.json')
