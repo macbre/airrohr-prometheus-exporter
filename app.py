@@ -101,7 +101,7 @@ def data():
     sensors[sensor_id] = SensorData(
         sensor_id=sensor_id,
         meta=dict(
-            software_version=payload.get('NRZ-2020-129', 'unknown')
+            software_version=payload.get('software_version', 'unknown')  # NRZ-2020-129
         ),
         metrics={
             # bme280_temperature: 20.47
