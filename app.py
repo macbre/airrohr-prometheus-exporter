@@ -44,6 +44,7 @@ def metrics():
     """
     Expose metrics for the Prometheus collector
     """
+    # Consider using https://www.robustperception.io/writing-json-exporters-in-python
     def format_sensors(prefix: str):
         for sensor in sensors.values():
             # sensor's metadata
