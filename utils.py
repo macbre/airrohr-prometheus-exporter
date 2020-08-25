@@ -14,6 +14,8 @@ def format_prometheus_metric(
     # HELP node_cooling_device_max_state Maximum throttle state of the cooling device
     # TYPE node_cooling_device_max_state gauge
     # node_cooling_device_max_state{name="0",type="Processor"} 7
+    #
+    # https://prometheus.io/docs/instrumenting/exposition_formats/
 
     lines = list()
 
