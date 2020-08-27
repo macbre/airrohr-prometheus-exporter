@@ -1,0 +1,25 @@
+name: Check if a Docker image can be built
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: docker build . --tag ${{ github.repository }}
+
+    # https://docs.docker.com/engine/reference/run/
+    - name: Start the Docker image
+      run: |
+        docker run --detach -p 1234:8888 --name=test_container ${{ github.repository }}
+        sleep 2
+        docker ps
+    - name: Perform a health check
+      run: |
+        curl 0.0.0.0:1234 -v
+        docker logs test_container
