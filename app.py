@@ -117,4 +117,4 @@ def data():
 
 if __name__ == "__main__":
     # Start the server
-    app.run(host='0.0.0.0', port=getenv('PORT', '80'), debug=True)
+    app.run(host='0.0.0.0', port=getenv('PORT', '8888'), debug=getenv('FLASK_DEBUG', '1') == 1)
