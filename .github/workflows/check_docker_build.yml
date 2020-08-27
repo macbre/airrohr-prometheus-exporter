@@ -19,7 +19,14 @@ jobs:
         docker run --detach -p 1234:8888 --name=test_container ${{ github.repository }}
         sleep 2
         docker ps
-    - name: Perform a health check
+
+    - name: Check that /data.php accepts metrics
       run: |
-        curl 0.0.0.0:1234 -v
+        curl 0:1234/data.php -v -H 'User-Agent: NRZ-2020-129/12345678' -H 'X-Sensor: esp8266-12345678' -H 'Content-Type: application/json' -d '{"esp8266id": "12345678", "software_version": "NRZ-2020-129", "sensordatavalues":[{"value_type":"SDS_P1","value":"0.40"},{"value_type":"SDS_P2","value":"0.20"},{"value_type":"BME280_temperature","value":"20.47"},{"value_type":"BME280_pressure","value":"100613.25"},{"value_type":"BME280_humidity","value":"69.02"},{"value_type":"samples","value":"4222662"},{"value_type":"min_micro","value":"32"},{"value_type":"max_micro","value":"3301275"},{"value_type":"signal","value":"-94"}]}'
+
+    - name: Check that /metrics endpoint exposes Prometheus metrics
+      run: |
+        curl 0:1234/metrics | tee /tmp/metrics
+        grep '# HELP airrohr_info Information about the sensor.' /tmp/metrics
+
         docker logs test_container
