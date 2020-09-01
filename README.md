@@ -107,7 +107,7 @@ scrape_configs:
 Start this server locally and make a request using `curl`:
 
 ```
-FLASK_ENV=devel PORT=55123 python app.py
+FLASK_ENV=devel HTTP_PORT=55123 python app.py
 curl 0:55123/data.php -H 'X-Sensor: foo' -H 'Content-Type: application/json' -d '{"esp8266id": "12331981", "software_version": "NRZ-2020-129", "sensordatavalues":[{"value_type":"SDS_P1","value":"0.40"},{"value_type":"SDS_P2","value":"0.20"},{"value_type":"BME280_temperature","value":"20.47"},{"value_type":"BME280_pressure","value":"100613.25"},{"value_type":"BME280_humidity","value":"69.02"},{"value_type":"samples","value":"4222662"},{"value_type":"min_micro","value":"32"},{"value_type":"max_micro","value":"3301275"},{"value_type":"signal","value":"-94"}]}'
 ```
 
