@@ -32,13 +32,16 @@ Exposes metrics collected from airrohr stations in Prometheus format.
 ```
 # HELP airrohr_info Information about the sensor.
 # TYPE airrohr_info gauge
-airrohr_info {sensor_id="esp8266-12326597",software="NRZ-2020-129"} 1
-# HELP airrohr_bme280_temperature bme280_temperature metric
-# TYPE airrohr_bme280_temperature gauge
-airrohr_bme280_temperature {sensor_id="esp8266-12326597"} 20.28
-# HELP airrohr_bme280_pressure bme280_pressure metric
-# TYPE airrohr_bme280_pressure gauge
-airrohr_bme280_pressure {sensor_id="esp8266-12326597"} 100166.37
+airrohr_info{sensor_id="esp8266-12345678",software="NRZ-2020-129"} 1.0
+airrohr_info{sensor_id="esp8266-12345670",software="NRZ-2020-129"} 1.0
+# HELP airrohr_last_measurement_timestamp When was the most recent data received.
+# TYPE airrohr_last_measurement_timestamp gauge
+airrohr_last_measurement{sensor_id="esp8266-12345678"} 1.598988287e+09
+airrohr_last_measurement{sensor_id="esp8266-12345670"} 1.598988287e+09
+# HELP airrohr_bme280_humidity bme280_humidity metric from airrohr.
+# TYPE airrohr_bme280_humidity gauge
+airrohr_bme280_humidity{sensor_id="esp8266-12345678"} 69.02 1598988287000
+airrohr_bme280_humidity{sensor_id="esp8266-12345670"} 65.46 1598988287000
 ...
 ```
 
