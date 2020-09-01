@@ -1,18 +1,46 @@
 """
 Test utils.py
 """
-from utils import format_prometheus_metric
+from typing import List
+
+from prometheus_client import Metric
+
+from utils import SensorsDataCollector, SensorData
 
 
-def test_format_prometheus_metric():
-    assert format_prometheus_metric(metric_name='foo_bar', metric_help='Help', value='12.4') \
-        == '# HELP foo_bar Help\n# TYPE foo_bar gauge\nfoo_bar 12.4'
+def test_sensors_data_collector():
+    sensor_a = SensorData(
+        sensor_id='foo-123',
+        last_read=123456,
+        meta=dict(software_version='1.0.0'),
+        metrics=dict(
+            temp='23.5'
+        )
+    )
+    sensor_b = SensorData(
+        sensor_id='foo-245',
+        last_read=123456,
+        meta=dict(software_version='1.2.0'),
+        metrics=dict(
+            temp='18.5',
+            pressure='1024'
+        )
+    )
 
-    assert format_prometheus_metric(metric_name='foo_bar', metric_help='Help', value='12.4', labels={}) \
-        == '# HELP foo_bar Help\n# TYPE foo_bar gauge\nfoo_bar 12.4'
+    collector = SensorsDataCollector(sensors_data=[sensor_a, sensor_b], prefix='test_airrohr_')
 
-    assert format_prometheus_metric(metric_name='foo_bar', metric_help='Help', value='12.4', labels={'id': '12345'}) \
-        == '# HELP foo_bar Help\n# TYPE foo_bar gauge\nfoo_bar {id="12345"} 12.4'
+    # check what kind of metrics are emitted
+    metrics: List[Metric] = list(collector.collect())
 
-    assert format_prometheus_metric(metric_name='foo_bar', metric_help='Help', value='12.4', labels={'id': '12345', 'version': '1.0.0'}) \
-        == '# HELP foo_bar Help\n# TYPE foo_bar gauge\nfoo_bar {id="12345",version="1.0.0"} 12.4'
+    assert [metric.name for metric in metrics] == [
+        'test_airrohr_info',
+        'test_airrohr_last_measurement_timestamp',
+        'test_airrohr_pressure',
+        'test_airrohr_temp',
+    ]
+
+    # test one of the metrics
+    info = metrics[0]
+    assert len(info.samples) == 2
+    assert info.samples[0].labels == {'sensor_id': 'foo-123', 'software': '1.0.0'}
+    assert info.samples[1].labels == {'sensor_id': 'foo-245', 'software': '1.2.0'}

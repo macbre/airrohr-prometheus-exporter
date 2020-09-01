@@ -2,29 +2,19 @@
 airrohr-prometheus-exporter web-app
 """
 import logging
-from dataclasses import dataclass
+import time
 from os import getenv
 from typing import Dict
 
 from flask import Flask, request, jsonify, Response
-
-from utils import format_prometheus_metric
+from prometheus_client import generate_latest
+from utils import SensorData, SensorsDataCollector
 
 app = Flask(__name__)
 
 # set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('airrohr-prometheus-exporter')
-
-
-@dataclass
-class SensorData:
-    """
-    Storage for a single sensor data
-    """
-    sensor_id: str
-    meta: Dict[str, str]
-    metrics: Dict[str, str]
 
 
 # keep track of sensors data received
@@ -36,7 +26,15 @@ def hello_world():
     """
     We just say hello here
     """
-    return 'Hello, World!'
+    return """
+<html>
+    <head><title>airrohr-prometheus-exporter</title></head>
+    <body>
+    <h1>airrohr-prometheus-exporter</h1>
+    <p><a href="/metrics">Metrics</a></p>
+    </body>
+</html>
+""".strip()
 
 
 @app.route('/metrics')
@@ -44,32 +42,9 @@ def metrics():
     """
     Expose metrics for the Prometheus collector
     """
-    # Consider using https://www.robustperception.io/writing-json-exporters-in-python
-    def format_sensors(prefix: str):
-        for sensor in sensors.values():
-            # sensor's metadata
-            yield format_prometheus_metric(
-                metric_name=f'{prefix}_info',
-                metric_help='Information about the sensor.',
-                value='1',
-                labels=dict(
-                    sensor_id=sensor.sensor_id,
-                    software=sensor.meta.get('software_version', '')
-                )
-            ) + '\n'
+    collector = SensorsDataCollector(sensors_data=list(sensors.values()), prefix='airrohr_')
 
-            # sensor's metrics
-            for metric, value in sensor.metrics.items():
-                yield format_prometheus_metric(
-                    metric_name=f'{prefix}_{metric}',
-                    metric_help=f'{metric} metric',
-                    value=str(value),
-                    labels=dict(
-                        sensor_id=sensor.sensor_id
-                    )
-                ) + '\n'
-
-    return Response(format_sensors(prefix='airrohr'), mimetype='text/plain')
+    return Response(generate_latest(registry=collector), mimetype='text/plain')
 
 
 @app.route('/metrics.json')
@@ -101,6 +76,7 @@ def data():
     # store received metrics
     sensors[sensor_id] = SensorData(
         sensor_id=sensor_id,
+        last_read=int(time.time()),
         meta=dict(
             software_version=payload.get('software_version', 'unknown')  # NRZ-2020-129
         ),
@@ -117,4 +93,8 @@ def data():
 
 if __name__ == "__main__":
     # Start the server
-    app.run(host='0.0.0.0', port=getenv('PORT', '8888'), debug=getenv('FLASK_DEBUG', '1') == 1)
+    app.run(
+        host='0.0.0.0',
+        port=getenv('HTTP_PORT', '8888'),
+        debug=getenv('FLASK_DEBUG', '1') == '1'
+    )

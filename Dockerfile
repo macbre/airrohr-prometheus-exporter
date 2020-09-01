@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM python:3-slim
 WORKDIR /opt/airrohr-prometheus-exporter
 
 # install requirements
@@ -8,7 +8,7 @@ RUN pip install -r requirements.txt && python -V && pip list
 # set up env
 ENV FLASK_DEBUG 0
 ENV FLASK_ENV production
-ENV PORT 8888
+ENV HTTP_PORT 8888
 EXPOSE 8888
 
 # copy the rest of the app and run it
@@ -17,6 +17,6 @@ COPY . .
 
 # https://docs.docker.com/engine/reference/builder/#healthcheck
 HEALTHCHECK --interval=15s --timeout=1s --retries=3 \
-  CMD wget 0.0.0.0:${PORT} --spider -q -U 'wget/healthcheck' || exit 1
+  CMD wget 0.0.0.0:${HTTP_PORT} --spider -q -U 'wget/healthcheck' || exit 1
 
-CMD ["python", "app.py"]
+CMD ["sh", "server.sh"]
