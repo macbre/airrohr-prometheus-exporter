@@ -32,16 +32,16 @@ Exposes metrics collected from airrohr stations in Prometheus format.
 ```
 # HELP airrohr_info Information about the sensor.
 # TYPE airrohr_info gauge
-airrohr_info{sensor_id="esp8266-12345678",software="NRZ-2020-129"} 1.0
-airrohr_info{sensor_id="esp8266-12345670",software="NRZ-2020-129"} 1.0
+airrohr_info{sensor_id="esp8266-12331981",software="NRZ-2020-129"} 1.0
+airrohr_info{sensor_id="esp8266-12326597",software="NRZ-2020-129"} 1.0
 # HELP airrohr_last_measurement_timestamp When was the most recent data received.
 # TYPE airrohr_last_measurement_timestamp gauge
-airrohr_last_measurement{sensor_id="esp8266-12345678"} 1.598988287e+09
-airrohr_last_measurement{sensor_id="esp8266-12345670"} 1.598988287e+09
+airrohr_last_measurement{sensor_id="esp8266-12331981"} 1.598988915e+09
+airrohr_last_measurement{sensor_id="esp8266-12326597"} 1.598988842e+09
 # HELP airrohr_bme280_humidity bme280_humidity metric from airrohr.
 # TYPE airrohr_bme280_humidity gauge
-airrohr_bme280_humidity{sensor_id="esp8266-12345678"} 69.02 1598988287000
-airrohr_bme280_humidity{sensor_id="esp8266-12345670"} 65.46 1598988287000
+airrohr_bme280_humidity{sensor_id="esp8266-12331981"} 67.89 1598988915000
+airrohr_bme280_humidity{sensor_id="esp8266-12326597"} 56.13 1598988842000
 ...
 ```
 
@@ -55,36 +55,38 @@ Exposes metrics collected from airrohr stations in JSON format.
 {
   "sensors": [
     {
+      "last_read": 1598988915,
       "meta": {
         "software_version": "NRZ-2020-129"
-      }, 
+      },
       "metrics": {
-        "bme280_humidity": "57.33", 
-        "bme280_pressure": "100166.37", 
-        "bme280_temperature": "20.28", 
-        "max_micro": "11204", 
-        "min_micro": "32", 
-        "samples": "4354329", 
-        "signal": "-33"
-      }, 
-      "sensor_id": "esp8266-12326597"
-    }, 
-    {
-      "meta": {
-        "software_version": "NRZ-2020-129"
-      }, 
-      "metrics": {
-        "bme280_humidity": "73.07", 
-        "bme280_pressure": "100206.13", 
-        "bme280_temperature": "16.61", 
-        "max_micro": "20407", 
-        "min_micro": "33", 
-        "samples": "4353673", 
-        "sds_p1": "0.60", 
-        "sds_p2": "0.40", 
-        "signal": "-91"
-      }, 
+        "bme280_humidity": "67.89",
+        "bme280_pressure": "101114.53",
+        "bme280_temperature": "19.07",
+        "max_micro": "20783",
+        "min_micro": "27",
+        "samples": "4195163",
+        "sds_p1": "0.30",
+        "sds_p2": "0.10",
+        "signal": "-93"
+      },
       "sensor_id": "esp8266-12331981"
+    },
+    {
+      "last_read": 1598988842,
+      "meta": {
+        "software_version": "NRZ-2020-129"
+      },
+      "metrics": {
+        "bme280_humidity": "56.13",
+        "bme280_pressure": "101068.25",
+        "bme280_temperature": "20.91",
+        "max_micro": "2809",
+        "min_micro": "32",
+        "samples": "4387819",
+        "signal": "-25"
+      },
+      "sensor_id": "esp8266-12326597"
     }
   ]
 }
