@@ -2,6 +2,7 @@
 airrohr-prometheus-exporter web-app
 """
 import logging
+import time
 from dataclasses import dataclass
 from os import getenv
 from typing import Dict
@@ -20,9 +21,10 @@ logger = logging.getLogger('airrohr-prometheus-exporter')
 @dataclass
 class SensorData:
     """
-    Storage for a single sensor data
+    Storage for a single sensor's data
     """
     sensor_id: str
+    last_read: int
     meta: Dict[str, str]
     metrics: Dict[str, str]
 
@@ -63,6 +65,15 @@ def metrics():
                 labels=dict(
                     sensor_id=sensor.sensor_id,
                     software=sensor.meta.get('software_version', '')
+                )
+            ) + '\n'
+
+            yield format_prometheus_metric(
+                metric_name=f'{prefix}_read_timestamp',
+                metric_help='When was the most recent data received.',
+                value=str(sensor.last_read),
+                labels=dict(
+                    sensor_id=sensor.sensor_id,
                 )
             ) + '\n'
 
@@ -109,6 +120,7 @@ def data():
     # store received metrics
     sensors[sensor_id] = SensorData(
         sensor_id=sensor_id,
+        last_read=int(time.time()),
         meta=dict(
             software_version=payload.get('software_version', 'unknown')  # NRZ-2020-129
         ),
