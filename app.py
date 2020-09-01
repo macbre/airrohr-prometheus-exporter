@@ -3,30 +3,18 @@ airrohr-prometheus-exporter web-app
 """
 import logging
 import time
-from dataclasses import dataclass
 from os import getenv
 from typing import Dict
 
 from flask import Flask, request, jsonify, Response
-
-from utils import format_prometheus_metric
+from prometheus_client import generate_latest
+from utils import SensorData, SensorsDataCollector
 
 app = Flask(__name__)
 
 # set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('airrohr-prometheus-exporter')
-
-
-@dataclass
-class SensorData:
-    """
-    Storage for a single sensor's data
-    """
-    sensor_id: str
-    last_read: int
-    meta: Dict[str, str]
-    metrics: Dict[str, str]
 
 
 # keep track of sensors data received
@@ -54,41 +42,9 @@ def metrics():
     """
     Expose metrics for the Prometheus collector
     """
-    # Consider using https://www.robustperception.io/writing-json-exporters-in-python
-    def format_sensors(prefix: str):
-        for sensor in sensors.values():
-            # sensor's metadata
-            yield format_prometheus_metric(
-                metric_name=f'{prefix}_info',
-                metric_help='Information about the sensor.',
-                value='1',
-                labels=dict(
-                    sensor_id=sensor.sensor_id,
-                    software=sensor.meta.get('software_version', '')
-                )
-            ) + '\n'
+    collector = SensorsDataCollector(sensors_data=list(sensors.values()), prefix='airrohr_')
 
-            yield format_prometheus_metric(
-                metric_name=f'{prefix}_read_timestamp',
-                metric_help='When was the most recent data received.',
-                value=str(sensor.last_read),
-                labels=dict(
-                    sensor_id=sensor.sensor_id,
-                )
-            ) + '\n'
-
-            # sensor's metrics
-            for metric, value in sensor.metrics.items():
-                yield format_prometheus_metric(
-                    metric_name=f'{prefix}_{metric}',
-                    metric_help=f'{metric} metric',
-                    value=str(value),
-                    labels=dict(
-                        sensor_id=sensor.sensor_id
-                    )
-                ) + '\n'
-
-    return Response(format_sensors(prefix='airrohr'), mimetype='text/plain')
+    return Response(generate_latest(registry=collector), mimetype='text/plain')
 
 
 @app.route('/metrics.json')
