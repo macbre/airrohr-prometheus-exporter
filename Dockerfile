@@ -1,6 +1,9 @@
 FROM python:3-slim
 WORKDIR /opt/airrohr-prometheus-exporter
 
+# we need wget for healthchecks below
+RUN apt upgrade -y && apt update -y && apt install -y wget
+
 # install requirements
 COPY requirements.txt .
 RUN pip install -r requirements.txt && python -V && pip list
