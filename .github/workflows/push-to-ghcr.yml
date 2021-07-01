@@ -1,8 +1,11 @@
 name: Publish Docker image to ghcr.io public repository
 
 # https://help.github.com/en/actions/reference/events-that-trigger-workflows
+# https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
 on:
   push: # debug
+#     branches:
+#     - master
   release:
     types: [ published ]
 
@@ -29,24 +32,27 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set commit tag that will be used to tag a specific version
+      if: ${{ github.event_name == 'release' }}
       run: |
         export COMMIT_TAG=${GITHUB_REF:10}
         # export COMMIT_TAG=v2.3.0 # debug
         echo "COMMIT_TAG=${COMMIT_TAG//v/}" >> $GITHUB_ENV # remove "v" suffix
 
-    # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
-    - name: Show env variables
+    - name: Set commit tag to "latest"
+      if: ${{ github.event_name == 'push' }}
       run: |
-        echo "Event that triggered this workflow: ${{ github.event_name }}"
-        env | sort
+        echo "COMMIT_TAG=latest" >> $GITHUB_ENV
+
+    - name: Show env variables
+      run: env | sort
 
     # https://github.com/marketplace/actions/build-and-push-docker-images
-    - name: "Build and push Docker image (tag: ${{ env.COMMIT_TAG }})"
+    - name: "Build and push Docker image (tag: ${{ env.COMMIT_TAG }}, event: ${{ github.event_name }})"
       uses: docker/build-push-action@v2
       with:
         context: .
         push: true
-        tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_TAG }}, ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_TAG }}
         build-args: |
           GITHUB_SHA=${GITHUB_SHA}
         cache-from: |
