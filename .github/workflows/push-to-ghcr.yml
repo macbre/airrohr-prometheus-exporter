@@ -12,7 +12,7 @@ on:
   pull_request: # debug
 
 jobs:
-  ci:
+  docker_publish:
     runs-on: "ubuntu-20.04"
 
     steps:
