@@ -1,21 +1,22 @@
-name: Publish Docker image to ghcr.io public repository
-
-# https://help.github.com/en/actions/reference/events-that-trigger-workflows
-# https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
+name: Build and publish a Docker image to ghcr.io
 on:
-  push:
-#     branches:
-#     - master
+  # publish on releases (tagged as "x.y.z" - "v" prefix is removed)
   release:
     types: [ published ]
+  # publish on pushes to the main branch (tagged as "master")
+  push:
+    branches:
+      - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+  ci:
+    runs-on: "ubuntu-20.04"
 
     steps:
-    - name: push-to-ghcr
-      uses: macbre/push-to-ghcr@v0.0.1
+      - uses: actions/checkout@v2
+
+      - name: Run an action
+        uses: macbre/push-to-ghcr@master
+        with:
+          image_name: ${{ github.repository }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
