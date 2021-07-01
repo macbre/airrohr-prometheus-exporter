@@ -3,9 +3,9 @@ name: Publish Docker image to ghcr.io public repository
 # https://help.github.com/en/actions/reference/events-that-trigger-workflows
 # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
 on:
-  push: # debug
-#     branches:
-#     - master
+  push:
+    branches:
+    - master
   release:
     types: [ published ]
 
