@@ -34,8 +34,10 @@ jobs:
         # export COMMIT_TAG=v2.3.0 # debug
         echo "COMMIT_TAG=${COMMIT_TAG//v/}" >> $GITHUB_ENV # remove "v" suffix
 
+    # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
     - name: Show env variables
       run: |
+        echo "Event that triggered this workflow: ${{ github.event_name }}"
         env | sort
 
     # https://github.com/marketplace/actions/build-and-push-docker-images
