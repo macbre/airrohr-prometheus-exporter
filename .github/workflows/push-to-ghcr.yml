@@ -1,4 +1,4 @@
-name: Build and publish a Docker image to ghcr.io
+name: Publish the Docker image to ghcr.io and docker.io
 on:
   # publish on releases (tagged as "x.y.z" - "v" prefix is removed)
   release:
@@ -16,10 +16,11 @@ jobs:
     runs-on: "ubuntu-20.04"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
 
       - name: Build and publish a Docker image for ${{ github.repository }}
         uses: macbre/push-to-ghcr@master
         with:
           image_name: ${{ github.repository }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          docker_io_token: ${{ secrets.DOCKER_IO_ACCESS_TOKEN }}
