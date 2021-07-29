@@ -139,6 +139,13 @@ curl 0:55123/data.php -H 'X-Sensor: foo' -H 'Content-Type: application/json' -d 
 ### Docker container
 
 ```
+docker pull ghcr.io/macbre/airrohr-prometheus-exporter:latest
+docker run --detach --restart unless-stopped -p 55123:8888 --name airrohr -t ghcr.io/macbre/airrohr-prometheus-exporter
+```
+
+Or build it from the source code:
+
+```
 docker build -t airrohr .
 docker run --detach --restart unless-stopped -p 55123:8888 --name airrohr -t airrohr
 ```
