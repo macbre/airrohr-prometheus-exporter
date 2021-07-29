@@ -1,12 +1,18 @@
-FROM python:3-slim
+FROM python:3-alpine
 WORKDIR /opt/airrohr-prometheus-exporter
 
 # we need wget for healthchecks below
-RUN apt upgrade -y && apt update -y && apt install -y wget
+RUN apk add --no-cache wget
 
 # install requirements
 COPY requirements.txt .
-RUN pip install -r requirements.txt && python -V && pip list
+RUN apk add --no-cache --virtual .build-deps \
+        build-base \
+        gcc \
+	libffi-dev \
+	&& pip install -r requirements.txt && python -V && pip list \
+	&& apk del .build-deps \
+	&& rm -rf /root/* /tmp/*
 
 # set up env
 ENV FLASK_DEBUG 0
