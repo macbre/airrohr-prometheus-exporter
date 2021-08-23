@@ -18,7 +18,7 @@ logger = logging.getLogger('airrohr-prometheus-exporter')
 
 
 # keep track of sensors data received
-sensors: Dict[str, SensorData] = dict()
+sensors: Dict[str, SensorData] = {}
 
 
 @app.route('/')
