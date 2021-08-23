@@ -63,7 +63,7 @@ class SensorsDataCollector:
 
         # sensors data
         # iterate through all metrics
-        sensors_metrics = list()
+        sensors_metrics = []
 
         for sensor in self.sensors_data:
             sensors_metrics += sensor.metrics.keys()
