@@ -38,10 +38,10 @@ class SensorsDataCollector:
             name=f'{self.prefix}info', documentation='Information about the sensor.', typ='gauge')
 
         for sensor in self.sensors_data:
-            metric.add_sample(name=f'{self.prefix}info', value=1, labels=dict(
-                sensor_id=sensor.sensor_id,
-                software=sensor.meta.get('software_version', '')
-            ))
+            metric.add_sample(name=f'{self.prefix}info', value=1, labels={
+                'sensor_id': sensor.sensor_id,
+                'software': sensor.meta.get('software_version', '')
+            })
         yield metric
 
         # last measurement metric
@@ -56,9 +56,9 @@ class SensorsDataCollector:
             metric.add_sample(
                 name=f'{self.prefix}last_measurement',
                 value=sensor.last_read,
-                labels=dict(
-                    sensor_id=sensor.sensor_id,
-                ))
+                labels={
+                    'sensor_id': sensor.sensor_id,
+                })
         yield metric
 
         # sensors data
@@ -79,7 +79,7 @@ class SensorsDataCollector:
                 if (value := sensor.metrics.get(metric_name)) is not None:
                     metric.add_sample(
                         name=f'{self.prefix}{metric_name}', value=value,
-                        timestamp=sensor.last_read, labels=dict(
-                            sensor_id=sensor.sensor_id,
-                        ))
+                        timestamp=sensor.last_read, labels={
+                            'sensor_id': sensor.sensor_id,
+                        })
             yield metric
