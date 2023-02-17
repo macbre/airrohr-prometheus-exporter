@@ -52,9 +52,9 @@ def metrics_json():
     """
     Expose metrics in JSON format
     """
-    return jsonify(dict(
-        sensors=list(sensors.values())
-    ))
+    return jsonify({
+        'sensors': list(sensors.values())
+    })
 
 
 @app.route('/data.php', methods=('POST',))
@@ -77,9 +77,9 @@ def data():
     sensors[sensor_id] = SensorData(
         sensor_id=sensor_id,
         last_read=int(time.time()),
-        meta=dict(
-            software_version=payload.get('software_version', 'unknown')  # NRZ-2020-129
-        ),
+        meta={
+            'software_version': payload.get('software_version', 'unknown')  # NRZ-2020-129
+        },
         metrics={
             # bme280_temperature: 20.47
             str(metric['value_type']).lower(): metric['value']
