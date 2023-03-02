@@ -149,3 +149,7 @@ Or build it from the source code:
 docker build -t airrohr .
 docker run --detach --restart unless-stopped -p 55123:8888 --name airrohr -t airrohr
 ```
+
+## Links
+
+* [airRohr Sensor Firmware for SPS30, SDS011, DHT22, BMP180, BMP/E 280 and many more](https://github.com/opendata-stuttgart/sensors-software/blob/master/airrohr-firmware/Readme.md)
