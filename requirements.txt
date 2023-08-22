@@ -1,4 +1,4 @@
-Flask==2.3.2
+Flask==2.3.3
 gevent==23.7.0
 gunicorn==21.2.0
 prometheus-client==0.17.1
