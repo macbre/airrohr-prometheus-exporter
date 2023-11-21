@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM python:3.12-alpine
 WORKDIR /opt/airrohr-prometheus-exporter
 
 # we need wget for healthchecks below
