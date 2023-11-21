@@ -1,7 +1,9 @@
 # airrohr-prometheus-exporter
-This a HTTP server that accepts data sent by [`airrohr` AirQuality monitoring station](https://github.com/Naesstrom/Airrohr-kit) (temperature, pressure and PM metrics) and exposes them to [Prometheus](https://prometheus.io/)' metrics collector. You can then plot them with [Grafana](https://grafana.com/).
+This a HTTP server that accepts data sent by [`airrohr` AirQuality monitoring station](https://github.com/Naesstrom/Airrohr-kit) (temperature, pressure and PM metrics) and exposes them to [Prometheus](https://prometheus.io/)' metrics collector.
 
-<img width="1684" alt="Screenshot 2021-07-01 at 12 15 25" src="https://user-images.githubusercontent.com/1929317/124115851-2eb40080-da66-11eb-8747-c5940f79f5e8.png">
+You can then plot them with [Grafana](https://grafana.com/):
+
+<img width="889" alt="Screenshot 2023-11-21 at 11 03 10" src="https://github.com/macbre/airrohr-prometheus-exporter/assets/1929317/8496cf0f-b35b-4960-959b-700d23cf4b20">
 
 ## Run using Docker
 
