@@ -23,6 +23,16 @@ $ curl 0:55123/metrics
 # TYPE airrohr_last_measurement_timestamp gauge
 ```
 
+## Set up your Airrohr sensors
+
+1. Visit the `/config` page of your sensor.
+2. Enable the "Send data to custom API" option.
+3. Provide the hostname and the port where your `airrohr-prometheus-exporter` instance is running. Keep `/data.php` as the path.
+
+For instance:
+
+<img width="618" alt="Screenshot 2023-11-21 at 11 06 17" src="https://github.com/macbre/airrohr-prometheus-exporter/assets/1929317/de0291f9-6fb4-4377-8208-55c935a0309a">
+
 ## HTTP endpoints
 
 #### `POST /data.php`
