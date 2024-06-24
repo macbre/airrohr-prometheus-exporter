@@ -1,5 +1,5 @@
 # airrohr-prometheus-exporter
-This a HTTP server that accepts data sent by [`airrohr` AirQuality monitoring station]([https://github.com/Naesstrom/Airrohr-kit](https://sensor.community/en/sensors/airrohr/)) (temperature, pressure and PM metrics) and exposes them to [Prometheus](https://prometheus.io/)' metrics collector.
+This a HTTP server that accepts data sent by [`airrohr` AirQuality monitoring station](https://sensor.community/en/sensors/airrohr/) (temperature, pressure and PM metrics) and exposes them to [Prometheus](https://prometheus.io/)' metrics collector.
 
 You can then plot them with [Grafana](https://grafana.com/) and have Prometheus alerting you on the measurements. Observability!
 
@@ -166,3 +166,4 @@ docker run --detach --restart unless-stopped -p 55123:8888 --name airrohr -t air
 
 * [airRohr Sensor Firmware for SPS30, SDS011, DHT22, BMP180, BMP/E 280 and many more](https://github.com/opendata-stuttgart/sensors-software/blob/master/airrohr-firmware/Readme.md)
 * [airRohr source code](https://github.com/opendata-stuttgart/sensors-software)
+* [airRohr firmware flashing tool](http://firmware.sensor.community/airrohr/flashing-tool/)
