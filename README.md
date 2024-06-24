@@ -41,7 +41,7 @@ For instance:
 
 #### Example request
 
-```
+```yaml
 POST /data.php HTTP/1.1
 Host: my.host.name:1234
 User-Agent: NRZ-2020-129/12331981
@@ -53,6 +53,13 @@ X-Sensor: esp8266-12331981
 Content-Length: 481
 
 {"esp8266id": "12331981", "software_version": "NRZ-2020-129", "sensordatavalues":[{"value_type":"SDS_P1","value":"0.40"},{"value_type":"SDS_P2","value":"0.20"},{"value_type":"BME280_temperature","value":"20.47"},{"value_type":"BME280_pressure","value":"100613.25"},{"value_type":"BME280_humidity","value":"69.02"},{"value_type":"samples","value":"4222662"},{"value_type":"min_micro","value":"32"},{"value_type":"max_micro","value":"3301275"},{"value_type":"signal","value":"-94"}]}
+```
+
+Or from debug logs (via airrohr sensor web UI):
+
+```yaml
+## Sending as csv: 
+CSV Output: {"software_version": "NRZ-2024-136-B1", "sensordatavalues":[{"value_type":"temperature","value":"35.20"},{"value_type":"humidity","value":"45.30"},{"value_type":"samples","value":"1133404"},{"value_type":"min_micro","value":"25"},{"value_type":"max_micro","value":"99760"},{"value_type":"interval","value":"30000"},{"value_type":"signal","value":"-65"}]}
 ```
 
 #### `GET /metrics`
