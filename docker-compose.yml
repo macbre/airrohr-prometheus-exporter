@@ -1,0 +1,19 @@
+version: '2.4'
+services:
+  airrohr:
+    # https://github.com/macbre/airrohr-prometheus-exporter
+    image: ghcr.io/macbre/airrohr-prometheus-exporter:1.5.1
+    container_name: airrohr-prom-exporter
+    ports:
+    - "55123:8888"
+    mem_limit: 32M
+    labels:
+      traefik.enable: true
+      traefik.http.routers.airrohr.rule: Host(`${DOMAIN:-airrohr.foo.bar}`)
+      traefik.http.services.airrohr.loadbalancer.server.port: "8888"
+
+# docker network create public-network
+networks:
+  default:
+    name: public-network
+    external: true
