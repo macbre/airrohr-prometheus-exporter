@@ -1,9 +1,9 @@
-version: '2.4'
 services:
   airrohr:
     # https://github.com/macbre/airrohr-prometheus-exporter
     image: ghcr.io/macbre/airrohr-prometheus-exporter:1.5.1
     container_name: airrohr-prom-exporter
+    restart: always
     ports:
     - "55123:8888"
     mem_limit: 32M
