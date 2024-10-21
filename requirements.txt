@@ -1,5 +1,5 @@
 Flask==3.0.3
-gevent==24.10.2
+gevent==24.10.3
 gunicorn==23.0.0
 prometheus-client==0.21.0
 pylint==3.3.1
