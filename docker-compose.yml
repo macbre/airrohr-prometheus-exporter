@@ -1,7 +1,7 @@
 services:
   airrohr:
     # https://github.com/macbre/airrohr-prometheus-exporter
-    image: ghcr.io/macbre/airrohr-prometheus-exporter:1.5.1
+    image: ghcr.io/macbre/airrohr-prometheus-exporter:1.5.3
     container_name: airrohr-prom-exporter
     restart: always
     ports:
