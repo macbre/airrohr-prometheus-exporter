@@ -27,12 +27,44 @@ def hello_world():
     We just say hello here
     """
     return """
-<html>
-    <head><title>airrohr-prometheus-exporter</title></head>
-    <body>
-    <h1>airrohr-prometheus-exporter</h1>
-    <p><a href="/metrics">Metrics</a></p>
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>airrohr-prometheus-exporter</title>
+    <style>body {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,Liberation Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  margin: 0;
+}
+header {
+  background-color: #e6522c;
+  color: #fff;
+  font-size: 1rem;
+  padding: 1rem;
+}
+main {
+  padding: 1rem;
+}
+li {
+  line-height: 1.5em;
+}
+
+</style>
+  </head>
+  <body>
+    <header>
+      <h1>airRohr Exporter</h1>
+    </header>
+    <main>
+      <h2>Prometheus <a href="https://github.com/opendata-stuttgart/sensors-software">airRohr</a> Exporter</h2>
+      <div>
+        <ul>
+          <li><a href="/metrics">Metrics</a></li>
+          <li><a href="https://github.com/macbre/airrohr-prometheus-exporter">Visit GitHub</a></li>
+        </ul>
+      </div>
+    </main>
+  </body>
 </html>
 """.strip()
 
