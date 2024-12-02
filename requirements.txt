@@ -2,5 +2,5 @@ Flask==3.1.0
 gevent==24.11.1
 gunicorn==23.0.0
 prometheus-client==0.21.0
-pylint==3.3.1
+pylint==3.3.2
 pytest==8.3.4
