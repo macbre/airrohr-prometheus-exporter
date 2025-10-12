@@ -12,6 +12,7 @@ RUN apk add --no-cache --virtual .build-deps \
 	libffi-dev \
 	&& pip install -r requirements.txt && python -V && pip list \
 	&& apk del .build-deps \
+	&& apk add libstdc++6 libstdc++ \
 	&& rm -rf /root/* /tmp/*
 
 # set up env
