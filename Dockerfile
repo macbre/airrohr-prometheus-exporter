@@ -16,9 +16,9 @@ RUN apk add --no-cache --virtual .build-deps \
 	&& rm -rf /root/* /tmp/*
 
 # set up env
-ENV FLASK_DEBUG 0
-ENV FLASK_ENV production
-ENV HTTP_PORT 8888
+ENV FLASK_DEBUG=0
+ENV FLASK_ENV=production
+ENV HTTP_PORT=8888
 EXPOSE 8888
 
 # copy the rest of the app and run it
