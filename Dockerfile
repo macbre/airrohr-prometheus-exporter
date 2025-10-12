@@ -1,4 +1,4 @@
-FROM python:3.12-alpine
+FROM python:3.14-alpine
 WORKDIR /opt/airrohr-prometheus-exporter
 
 # we need wget for healthchecks below
@@ -12,12 +12,13 @@ RUN apk add --no-cache --virtual .build-deps \
 	libffi-dev \
 	&& pip install -r requirements.txt && python -V && pip list \
 	&& apk del .build-deps \
+	&& apk add libstdc++ \
 	&& rm -rf /root/* /tmp/*
 
 # set up env
-ENV FLASK_DEBUG 0
-ENV FLASK_ENV production
-ENV HTTP_PORT 8888
+ENV FLASK_DEBUG=0
+ENV FLASK_ENV=production
+ENV HTTP_PORT=8888
 EXPOSE 8888
 
 # copy the rest of the app and run it

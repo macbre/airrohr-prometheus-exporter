@@ -18,11 +18,12 @@ jobs:
         # https://github.com/actions/python-versions/blob/main/versions-manifest.json
         # https://devguide.python.org/versions/
         python-version:
-        - "3.9"
+        - "3.9"  # EOL at the end of 2025
         - "3.10"
         - "3.11"
         - "3.12"
-        - "3.13.0-rc.2"
+        - "3.13"
+        - "3.14"
 
     steps:
     - uses: actions/checkout@v5
