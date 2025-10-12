@@ -31,4 +31,6 @@ jobs:
         grep '# HELP airrohr_info Information about the sensor.' /tmp/metrics
         grep 'airrohr_info{sensor_id="esp8266-12345678",software="NRZ-2020-129"} 1.0' /tmp/metrics
 
-        docker logs test_container
+    - name: Show container's logs
+      if: always()
+      run: docker logs test_container
