@@ -3,4 +3,4 @@ gevent==25.9.1
 gunicorn==23.0.0
 prometheus-client==0.23.1
 pylint==3.3.9
-pytest==8.4.2
+pytest==9.0.1
