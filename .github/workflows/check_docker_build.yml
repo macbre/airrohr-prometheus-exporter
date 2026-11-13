@@ -31,6 +31,10 @@ jobs:
         grep '# HELP airrohr_info Information about the sensor.' /tmp/metrics
         grep 'airrohr_info{sensor_id="esp8266-12345678",software="NRZ-2020-129"} 1.0' /tmp/metrics
 
+    - name: The X-Forwarded-For header handling
+      run: |
+        curl 0:1234/ -v -H 'X-Forwarded-For: 1.2.3.4,5.6.7.8'
+
     - name: Show container's logs
       if: always()
       run: docker logs test_container
