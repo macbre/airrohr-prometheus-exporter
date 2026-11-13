@@ -8,9 +8,15 @@ from typing import Dict
 
 from flask import Flask, request, jsonify, Response
 from prometheus_client import generate_latest
+from werkzeug.middleware.proxy_fix import ProxyFix
+
 from utils import SensorData, SensorsDataCollector
 
 app = Flask(__name__)
+
+# Middleware that adjusts the WSGI environ based on X-Forwarded - headers that treafik sets.
+# https://werkzeug.palletsprojects.com/en/stable/middleware/proxy_fix/
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 # set up logging
 logging.basicConfig(level=logging.INFO)
